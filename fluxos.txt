@@ -1,0 +1,20 @@
+# --- Teste de Previsao de Branch: Tomado (TAKEN) ---
+ADD R3, R1, R2        # R3 = 5 + 5 = 10
+SUB R3, R3, R1        # R3 = 10 - 5 = 5
+SUB R3, R3, R2        # R3 = 5 - 5 = 0
+ADD R4, R3, R0        # R4 = 0 + 0 = 0
+BEQ R4, R0, 7         # Se R4 == 0, desvia para [7] (Previsao NOT TAKEN incorreta)
+ADD R5, R1, R2        # Caminho SEQUENCIAL (executa se desvio NAO tomado) - indice 5
+MUL R5, R5, R0        # Caminho SEQUENCIAL - indice 6
+SUB R5, R1, R0        # Caminho do DESVIO (executa se desvio FOR tomado) - indice 7
+DIV R6, R1, R2        # Executa em ambos os casos (pos-desvio) - indice 8
+
+--- Teste de Previsao de Branch: Nao Tomado (NOT TAKEN) ---
+ADD R3, R1, R2          # R3 = 5 + 10 = 15
+SUB R4, R2, R1          # R4 = 10 - 5 = 5
+ADD R5, R3, R4          # R5 = 15 + 5 = 20
+BEQ R5, R0, 6           # R5 (20) != R0 (0) --> NAO desvia. Previsao NOT TAKEN esta CORRETA.
+MUL R5, R5, R1          # 20 * 5 = 100
+DIV R5, R5, R2          # 100 / 10 = 10
+ADD R5, R5, R1          # 10 + 5 = 15
+
