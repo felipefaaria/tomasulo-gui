@@ -96,9 +96,7 @@ O simulador utiliza um conjunto de instruções **MIPS-like** e apresenta métri
 
 - Caio Ronan Horta  
 - Daniel Valadares
-- Felipe Silva Faria 
-- Lucas Cabral Vieira  
-- Rafael Pereira Vilefort
+- Felipe Silva Faria  
 - Thiago Cedro Silva de Souza 
 
 ---
