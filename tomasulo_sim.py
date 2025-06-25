@@ -30,8 +30,8 @@ class Instruction:
     def _get_execution_cycles(self, opname):
         if opname in ['ADD', 'SUB']: return 2
         elif opname in ['SLLI', 'SRLI', 'OR', 'AND', 'BEQ', 'BNE']: return 1
-        elif opname in ['LW', 'LB', 'SW', 'SB']: return 3
-        elif opname in ['MUL', 'DIV']: return 5
+        elif opname in ['LW', 'LB', 'SW', 'SB']: return 5
+        elif opname in ['MUL', 'DIV']: return 3
         else: return 1
 
     # Reseta os atributos de estado do pipeline para re-execução
@@ -169,11 +169,11 @@ class TomasuloSimulator:
         for i in range(num_mem):
             self.reservation_stations.append(ReservationStation(f"MEM{i+1}"))
         for i in range(num_add):
-            self.reservation_stations.append(ReservationStation(f"ADD{i+1}")) # Renomeado ATM para ADD
+            self.reservation_stations.append(ReservationStation(f"ADD{i+1}"))
         for i in range(num_logic):
-            self.reservation_stations.append(ReservationStation(f"BRANCH{i+1}")) # Renomeado LOG para BRANCH
+            self.reservation_stations.append(ReservationStation(f"BRANCH{i+1}")) 
         for i in range(num_mult):
-            self.reservation_stations.append(ReservationStation(f"MUL{i+1}")) # Renomeado MULT para MUL
+            self.reservation_stations.append(ReservationStation(f"MUL{i+1}")) 
 
     def load_instructions(self, filename="instructions.txt"):
         self.program_instructions.clear()
@@ -254,11 +254,11 @@ class TomasuloSimulator:
             if rs.is_clear():
                 if inst_opname in ['LW', 'LB', 'SW', 'SB'] and rs.name.startswith("MEM"):
                     return rs
-                elif inst_opname in ['ADD', 'SUB'] and rs.name.startswith("ADD"): # Renomeado ATM para ADD
+                elif inst_opname in ['ADD', 'SUB'] and rs.name.startswith("ADD"): 
                     return rs
-                elif inst_opname in ['SLLI', 'SRLI', 'OR', 'AND', 'BEQ', 'BNE'] and rs.name.startswith("BRANCH"): # Renomeado LOG para BRANCH
+                elif inst_opname in ['SLLI', 'SRLI', 'OR', 'AND', 'BEQ', 'BNE'] and rs.name.startswith("BRANCH"): 
                     return rs
-                elif inst_opname in ['MUL', 'DIV'] and rs.name.startswith("MUL"): # Renomeado MULT para MUL
+                elif inst_opname in ['MUL', 'DIV'] and rs.name.startswith("MUL"): 
                     return rs
         return None
 
@@ -842,16 +842,16 @@ DIV R6, R1, R2          # Continua - indice 8
         
         if 'R0' not in self.simulator.register_file: self.simulator.register_file['R0'] = Register('R0')
         self.simulator.register_file['R0'].value = 0 
-        self.simulator.register_file['R0'].clear() # Garante R0 limpo
+        self.simulator.register_file['R0'].clear() 
 
         if 'R1' not in self.simulator.register_file: self.simulator.register_file['R1'] = Register('R1')
         self.simulator.register_file['R1'].value = 5
         if 'R2' not in self.simulator.register_file: self.simulator.register_file['R2'] = Register('R2')
         self.simulator.register_file['R2'].value = 5
 
-        self.simulator.memory[108] = 500
+        self.simulator.memory[108] = 5
         self.simulator.memory[16] = 0
-        self.simulator.memory[12] = 777
+        self.simulator.memory[12] = 7
         
         self.update_gui()
 

@@ -1,9 +1,12 @@
-ADD R3, R1, R2        # R3 = 5 + 5 = 10
-SUB R3, R3, R1        # R3 = 10 - 5 = 5
-SUB R3, R3, R2        # R3 = 5 - 5 = 0
-ADD R4, R3, R0        # R4 = 0 + 0 = 0
-BEQ R4, R0, 7         # Se R4 == 0, desvia para [7] (Previsao NOT TAKEN incorreta)
-ADD R5, R1, R2        # Caminho SEQUENCIAL (executa se desvio NAO tomado) - indice 5
-MUL R5, R5, R0        # Caminho SEQUENCIAL - indice 6
-SUB R5, R1, R0        # Caminho do DESVIO (executa se desvio FOR tomado) - indice 7
-DIV R6, R1, R2        # Executa em ambos os casos (pos-desvio) - indice 8
+ADD R3, R1, R2          # R3 = 5 + 10 = 15      (Indice 0) - ADD/SUB: 2 ciclos
+SUB R4, R2, R1          # R4 = 10 - 5 = 5       (Indice 1) - ADD/SUB: 2 ciclos
+SW R3, R10, 4           # Mem[104] = R3(15)     (Indice 2) - LOAD/STORE: 5 ciclos
+SUB R5, R3, R3          # R5 = 15 - 15 = 0      (Indice 3) - ADD/SUB: 2 ciclos. ALTERADO para forçar R5=0.
+MUL R8, R5, R1          # R8 = R5(0) * R1(5) = 0 (Indice 4) - MUL/DIV: 3 ciclos
+BEQ R5, R0, 11          # R5(0) == R0(0) --> VERDADEIRO. DESVIA. Previsao NOT TAKEN INCORRETA. (Indice 5)
+LW R7, R10, 4           # CAMINHO ESPECULATIVO INCORRETO. Será limpo. (Indice 6) - LOAD/STORE: 5 ciclos.
+DIV R9, R8, R2          # CAMINHO ESPECULATIVO INCORRETO. Será limpo. (Indice 7) - MUL/DIV: 3 ciclos.
+ADD R5, R5, R1          # CAMINHO ESPECULATIVO INCORRETO. Será limpo. (Indice 8) - ADD/SUB: 2 ciclos
+LW R12, R10, 8          # CAMINHO ESPECULATIVO INCORRETO. Será limpo. (Indice 9) - LOAD/STORE: 5 ciclos.
+ADD R10, R10, R0        # CAMINHO ESPECULATIVO INCORRETO. Será limpo. (Indice 10) - ADD/SUB: 2 ciclos
+SUB R11, R1, R0         # Caminho do DESVIO (CORRETO) - indice 11. R11 = 5 - 0 = 5.
